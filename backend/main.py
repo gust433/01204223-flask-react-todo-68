@@ -42,7 +42,7 @@ with app.app_context():
 
 todo_list = [
     { "id": 1,
-      "title": 'Learn Flask',
+      "title": 'Learn Flask with SQLAlchemy',
       "done": True },
     { "id": 2,
       "title": 'Build a Flask App',
