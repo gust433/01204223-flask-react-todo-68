@@ -19,6 +19,12 @@ function TodoItem({todo, toggleDone, deleteTodo, addNewComment}) {
                 </ul>
               </>
             )}
+            {(todo.comments.length > 0) && (
+                <span>{todo.comments.length}</span>
+            )}
+        {(todo.comments.length == 0) && (
+            <span>No comments</span>
+        )}
         <div className="new-comment-forms">
           <input 
             type="text" 
