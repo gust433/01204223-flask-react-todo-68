@@ -93,3 +93,4 @@ describe('TodoItem', () => {
         expect(onAddNewComment).toHaveBeenCalledWith(baseTodo.id, 'New comment');
     });
 });
+
