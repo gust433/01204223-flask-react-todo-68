@@ -35,6 +35,9 @@ function TodoList({ apiUrl }) {
     try {
       const response = await fetch(toggle_api_url, {
         method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
       })
       if (response.ok) {
         const updatedTodo = await response.json();
@@ -51,6 +54,7 @@ function TodoList({ apiUrl }) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
         },
         body: JSON.stringify({ 'title': newTitle }),
       });
@@ -69,6 +73,9 @@ function TodoList({ apiUrl }) {
     try {
       const response = await fetch(delete_api_url, {
         method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
       });
       if (response.ok) {
         setTodoList(todoList.filter(todo => todo.id !== id));
@@ -84,6 +91,7 @@ function TodoList({ apiUrl }) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
         },
         body: JSON.stringify({ 'message': newComment }),
       });

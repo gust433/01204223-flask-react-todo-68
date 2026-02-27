@@ -1,9 +1,10 @@
 import './App.css'
 import { useState } from 'react'
 import { useAuth } from './context/Authcontext.jsx';
-
+import { useNavigate } from 'react-router-dom'
 
 function LoginForm({loginUrl}) {
+  const navigate = useNavigate();
   const { login, username: loggedInUsername } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -22,9 +23,10 @@ function LoginForm({loginUrl}) {
       if (response.ok) {
         const data = await response.json();
         console.log(data);
-        alert("Login successful.  access token = " + data.access_token);
-        // เรียกฟังก์ชัน login เพื่อเก็บ username และ token
+        //alert("Login successful.  access token = " + data.access_token);
         login(username, data.access_token);
+        navigate("/");
+        
       } else if (response.status === 401) {
         setErrorMessage("Login failed: Invalid username or password");
       }
