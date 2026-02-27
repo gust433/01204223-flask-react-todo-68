@@ -28,17 +28,6 @@ function TodoList({ apiUrl }) {
     } catch (err) {
       alert("Failed to fetch todo list from backend. Make sure the backend is running.");
     }
-    return (
-      <>
-        ....
-        <br />
-        <a href="/about">About</a>
-        <br />
-        {username && (
-          <a href="#" onClick={(e) => { e.preventDefault(); logout(); }}>Logout</a>
-        )}
-      </>
-    )
   }
 
   async function toggleDone(id) {
@@ -126,7 +115,9 @@ function TodoList({ apiUrl }) {
       <br />
       <a href="/about">About</a>
       <br />
-      <a href="/login">Login</a>
+      {username && (
+      <a href="#" onClick={(e) => { e.preventDefault(); logout(); }}>Logout</a>
+      )}
     </>
   )
 }
