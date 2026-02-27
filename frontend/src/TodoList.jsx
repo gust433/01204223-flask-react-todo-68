@@ -34,10 +34,11 @@ function TodoList({ apiUrl }) {
     const toggle_api_url = `${TODOLIST_API_URL}${id}/toggle/`
     try {
       const response = await fetch(toggle_api_url, {
-        method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${accessToken}`
-        }
+        },
+        method: 'PATCH'
+
       })
       if (response.ok) {
         const updatedTodo = await response.json();
@@ -124,7 +125,7 @@ function TodoList({ apiUrl }) {
       <a href="/about">About</a>
       <br />
       {username && (
-      <a href="#" onClick={(e) => { e.preventDefault(); logout(); }}>Logout</a>
+        <a href="#" onClick={(e) => { e.preventDefault(); logout(); }}>Logout</a>
       )}
     </>
   )

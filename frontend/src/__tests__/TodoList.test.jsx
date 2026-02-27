@@ -1,28 +1,41 @@
 import { render, screen } from '@testing-library/react'
 import { vi } from 'vitest'
-import App from '../App.jsx'
+import TodoList from '../TodoList.jsx'
 
 vi.mock('/vite.svg', () => ({
   default: 'vite-logo',
 }));
 
+vi.mock('../context/Authcontext', () => ({
+  useAuth: vi.fn(),
+}));
+
+import { useAuth } from '../context/Authcontext';
+
 const mockResponse = (body, ok = true) =>
   Promise.resolve({
     ok,
     json: () => Promise.resolve(body),
-});
+  });
 
 const todoItem1 = { id: 1, title: 'First todo', done: false, comments: [] };
-const todoItem2 = { id: 2, title: 'Second todo', done: false, comments: [
-  { id: 1, message: 'First comment' },
-  { id: 2, message: 'Second comment' },
-] };
+const todoItem2 = {
+  id: 2, title: 'Second todo', done: false, comments: [
+    { id: 1, message: 'First comment' },
+    { id: 2, message: 'Second comment' },
+  ]
+};
 
 const originalTodoList = [todoItem1, todoItem2];
 
-describe('App', () => {
+describe('TodoList', () => {
   beforeEach(() => {
     vi.stubGlobal('fetch', vi.fn());
+    useAuth.mockReturnValue({
+      username: 'testuser',
+      login: vi.fn(),
+      logout: vi.fn(),
+    });
   });
 
   afterEach(() => {
@@ -35,7 +48,7 @@ describe('App', () => {
       mockResponse(originalTodoList)
     );
 
-    render(<App />);
+    render(<TodoList />);
 
     expect(await screen.findByText('First todo')).toBeInTheDocument();
     expect(await screen.findByText('Second todo')).toBeInTheDocument();
@@ -43,7 +56,7 @@ describe('App', () => {
     expect(await screen.findByText('Second comment')).toBeInTheDocument();
   });
 
-  it('toggles done on a todo item', async() => {
+  it('toggles done on a todo item', async () => {
     // เตรียมค่าสำหรับคืนหลังกด toggle done แล้ว
     const toggledTodoItem1 = { ...todoItem1, done: true };
 
@@ -51,10 +64,10 @@ describe('App', () => {
     //   สำหรับการเรียกแต่ละครั้งเราจะสามารถโปรแกรมคำตอบแยกกันได้ โดยเรียก mockImplementationOnce หลายครั้ง
     //   กล่าวคือ รอบแรกคืนรายการทั้งหมด  รอบที่สองคืนค่า todo item ที่แก้ค่าแล้ว
     global.fetch
-      .mockImplementationOnce(() => mockResponse(originalTodoList))    
+      .mockImplementationOnce(() => mockResponse(originalTodoList))
       .mockImplementationOnce(() => mockResponse(toggledTodoItem1));
 
-    render(<App />);
+    render(<TodoList />);
 
     // assert ก่อนว่าของเดิม todo item แรกไม่ได้มีคลาส done
     expect(await screen.findByText('First todo')).not.toHaveClass('done');
