@@ -5,6 +5,7 @@ import click
 from models import TodoItem, Comment, User, db
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 from flask_jwt_extended import JWTManager
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -16,18 +17,6 @@ jwt = JWTManager(app)
 db.init_app(app)
 migrate = Migrate(app, db)
     
-INITIAL_TODOS = [
-    TodoItem(title='Learn Flask with SQLAlchemy'),
-    TodoItem(title='Build a Flask App'),
-]
-
-with app.app_context():
-    if TodoItem.query.count() == 0:
-         for item in INITIAL_TODOS:
-             db.session.add(item)
-         db.session.commit()
-
-
 todo_list = [
     { "id": 1,
       "title": 'Learn Flask with SQLAlchemy',
@@ -36,6 +25,18 @@ todo_list = [
       "title": 'Build a Flask App',
       "done": False },
 ]
+
+'''INITIAL_TODOS = [
+    TodoItem(title='Learn Flask with SQLAlchemy'),
+    TodoItem(title='Build a Flask App'),
+]'''
+
+#with app.app_context():
+    #if TodoItem.query.count() == 0:
+         #for item in INITIAL_TODOS:
+             #db.session.add(item)
+         #db.session.commit()
+
 
 @app.route('/api/todos/', methods=['GET'])
 @jwt_required()
