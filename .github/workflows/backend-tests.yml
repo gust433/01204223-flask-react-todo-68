@@ -36,4 +36,6 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run pytest
-        run: pytest -q
+        run: |
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
+          pytest -q
