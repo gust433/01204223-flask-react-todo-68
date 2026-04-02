@@ -34,11 +34,10 @@ function TodoList({ apiUrl }) {
     const toggle_api_url = `${TODOLIST_API_URL}${id}/toggle/`
     try {
       const response = await fetch(toggle_api_url, {
-        headers: {
+        method: 'PATCH',
+        headers : {
           'Authorization': `Bearer ${accessToken}`
-        },
-        method: 'PATCH'
-
+        }
       })
       if (response.ok) {
         const updatedTodo = await response.json();

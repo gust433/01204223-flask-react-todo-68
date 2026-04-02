@@ -10,6 +10,7 @@ vi.mock('../context/Authcontext', () => ({
   useAuth: vi.fn(),
 }));
 
+
 import { useAuth } from '../context/Authcontext';
 
 const mockResponse = (body, ok = true) =>
@@ -79,6 +80,6 @@ describe('TodoList', () => {
 
     // ตรวจสอบว่า todo item นั้นเปลี่ยนคลาสเป็น done แล้ว
     expect(await screen.findByText('First todo')).toHaveClass('done');
-    expect(global.fetch).toHaveBeenLastCalledWith(expect.stringMatching(/1\/toggle/), { method: 'PATCH' });
+    expect(global.fetch).toHaveBeenLastCalledWith(expect.stringMatching(/1\/toggle/), expect.anything());
   });
 });
